@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <title>Pexels details</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div id="photo-container" class="col-md-8"></div>
+      </div>
+    </div>
+    <script>
+      const URL = "https://api.pexels.com/v1/photos/";
+      const params = new URLSearchParams(window.location.search);
+      const pexelsId = params.get("pexelsId");
+
+      window.addEventListener("DOMContentLoaded", function () {
+        fetch(URL + pexelsId, {
+          headers: {
+            Authorization: "OCl0zDFIYleugZkSUfoa2azhKhwtwRGWneqlTBwSQh8Qo25KYeNkpu2x"
+          }
+        })
+          .then((resp) => resp.json())
+          .then((photo) => {
+            const photoContainer = document.getElementById("photo-container");
+            const img = document.createElement("img");
+            img.src = photo.src.large;
+            img.style.width = "100%";
+
+            const p = document.createElement("p");
+            p.innerText = photo.photographer;
+
+            photoContainer.appendChild(img);
+            photoContainer.appendChild(p);
+            document.body.style.backgroundColor = photo.avg_color;
+          });
+      });
+    </script>
+  </body>
+</html>

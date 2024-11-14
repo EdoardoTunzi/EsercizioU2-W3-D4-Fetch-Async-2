@@ -5,8 +5,12 @@ const loadBtn1 = document.getElementById("loadBtn");
 const loadBtn2 = document.getElementById("loadBtn2");
 const mainDiv = document.getElementById("mainContainer");
 
+const searchForm = document.querySelector("form");
+const searchInput = document.querySelector("form-control");
+
 //funzione creazione cards
 const createCards = (obj) => {
+  mainDiv.innerHTML = "";
   obj.photos.forEach((photo) => {
     //console.log(photo.src.original);
     const col = document.createElement("div");
@@ -14,11 +18,11 @@ const createCards = (obj) => {
     const card = document.createElement("div");
     card.className = "card mb-4 shadow-sm";
     card.innerHTML = `
-        <img src="${photo.src.original}" class="bd-placeholder-img card-img-top img-fluid object-fit-scale mt-2" style="height: 150px;"/>
+        <img src="${photo.src.landscape}" class="bd-placeholder-img card-img-top img-fluid object-fit" style="heigth: 200px;"/>
                 <div class="card-body">
-                  <h5 class="card-title">Lorem Ipsum</h5>
+                  <h5 class="card-title"><a href="./details.html?pexelsId=${photo.id}">${photo.photographer}</a></h5>
                   <p class="card-text">
-                    This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+                    ${photo.alt}
                   </p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
@@ -34,7 +38,7 @@ const createCards = (obj) => {
   });
 };
 //funzione di fetch da api
-const getImages = function (queryName) {
+const handleAPIfetch = function (queryName) {
   fetch("https://api.pexels.com/v1/search?query=" + queryName, {
     method: "GET",
     headers: { Authorization: apiKey }
@@ -52,14 +56,19 @@ const getImages = function (queryName) {
 
 //gestione click di Load btn
 loadBtn1.onclick = () => {
-  mainDiv.innerHTML = "";
-  getImages("tropical");
+  handleAPIfetch("tropical");
 };
 
 //gestione click secondo btn
 loadBtn2.onclick = () => {
-  mainDiv.innerHTML = "";
-  getImages("mountains");
+  handleAPIfetch("mountains");
+};
+
+//gestione SearchForm submit
+searchForm.onsubmit = (event) => {
+  event.preventDefault();
+  const searchValue = event.target.elements.userQuery.value;
+  handleAPIfetch(searchValue);
 };
 
 //window.addEventListener("DOMContentLoaded", function () {
