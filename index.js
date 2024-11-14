@@ -7,7 +7,7 @@ const mainDiv = document.getElementById("mainContainer");
 
 const searchForm = document.querySelector("form");
 const searchInput = document.querySelector("form-control");
-
+const myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
 //funzione creazione cards
 const createCards = (obj) => {
   mainDiv.innerHTML = "";
@@ -26,15 +26,32 @@ const createCards = (obj) => {
                   </p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Hide</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary view-btn">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary hide-btn">Hide</button>
                     </div>
                     <small class="text-muted">${photo.id}</small>
                   </div>
         `;
-    //aggiungo gli elementi nell'html
+    //Appendo la card
     mainDiv.appendChild(col);
     col.appendChild(card);
+    //seleziono e gestisco il tasto hide
+    const hideBtn = card.querySelector(".hide-btn");
+    hideBtn.onclick = () => {
+      card.classList.add("d-none");
+    };
+    //seleziono e gestisco il tasto view e il suo modale
+    const viewBtn = card.querySelector(".view-btn");
+    viewBtn.onclick = () => {
+      const modalTitle = document.getElementById("exampleModalLabel");
+      const modalBody = document.querySelector("#exampleModal .modal-body");
+      // Imposto il titolo del modale come il nome dell'autore
+      modalTitle.textContent = photo.photographer;
+
+      // Aggiungo l'immagine al corpo del modale, centrata
+      modalBody.innerHTML = `<img src="${photo.src.original}" class="img-fluid d-block mx-auto" alt="Photo by ${photo.photographer}">`;
+      myModal.show();
+    };
   });
 };
 //funzione di fetch da api
