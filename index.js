@@ -9,10 +9,12 @@ const mainDiv = document.getElementById("mainContainer");
 const createCards = (obj) => {
   obj.photos.forEach((photo) => {
     //console.log(photo.src.original);
+    const col = document.createElement("div");
+    col.className = "col-md-4";
     const card = document.createElement("div");
     card.className = "card mb-4 shadow-sm";
     card.innerHTML = `
-        <img src="${photo.src.original}" class="bd-placeholder-img card-img-top img-fluid" />
+        <img src="${photo.src.original}" class="bd-placeholder-img card-img-top img-fluid object-fit-scale mt-2" style="height: 150px;"/>
                 <div class="card-body">
                   <h5 class="card-title">Lorem Ipsum</h5>
                   <p class="card-text">
@@ -21,13 +23,12 @@ const createCards = (obj) => {
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Hide</button>
                     </div>
-                    <small class="text-muted">9 mins</small>
+                    <small class="text-muted">${photo.id}</small>
                   </div>
         `;
-    const col = document.createElement("div");
-    col.className = "col-md-4";
+    //aggiungo gli elementi nell'html
     mainDiv.appendChild(col);
     col.appendChild(card);
   });
