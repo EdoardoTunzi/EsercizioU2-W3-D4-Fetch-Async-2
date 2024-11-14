@@ -12,10 +12,9 @@ const getImages1 = function () {
       }
     })
     .then((imagesObj) => {
-        imagesObj.photos.src.original.forEach( => {
-            console.log(value);
-            
-        });
+      imagesObj.photos.forEach((photo) => {
+        //console.log(photo.src.original);
+      });
     })
     .catch((error) => console.error(error));
 };
